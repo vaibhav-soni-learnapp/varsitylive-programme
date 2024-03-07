@@ -1,11 +1,10 @@
 import streamlit as st
 import requests
 from concurrent.futures import ThreadPoolExecutor
+from datetime import date
 
 # Streamlit application title
 st.title('API Clicks Fetcher')
-
-
 
 # Authorization token (hardcoded for demonstration; consider securely managing this)
 auth_token = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiIxODUyZmZmNi02N2RlLTRiNjYtYmIwMy01NDJlY2Q4YmZmNzMiLCJhZG0iOnRydWUsImlhdCI6MTcwOTgxMzg2NywiZXhwIjoxNzA5OTAwMjY3LCJhdWQiOiJwbGF0bzowLjAuMSIsImlzcyI6InZhcnNpdHktbGl2ZSJ9.klwrXQAJFL2cHYiYkOHqLOhsNH9ta2Hf82DLZhCOQxY'  # Ensure to replace <your_token_here> with your actual token
@@ -28,13 +27,17 @@ else:
     event_names = [event['eventName'] for event in all_clicks_response['items']]
     selected_event_name = st.selectbox('Select Event Name', event_names)
 
-    # Dynamic URLs for the APIs based on selected event name
+    # Date input for fromDate and toDate
+    fromDate = st.date_input("From Date", date.today())
+    toDate = st.date_input("To Date", date.today())
+
+    # Dynamic URLs for the APIs based on selected event name and date range
     urls = [
-        f"https://oracle.varsitylive.in/admin/web-analytics/click/{selected_event_name}/3f2973a2-b6f2-4c18-ba1d-4c48346937b6/range?fromDate=2024-03-01&toDate=2024-03-08",
-        f"https://oracle.varsitylive.in/admin/web-analytics/click/{selected_event_name}/f4747acb-e1f7-458a-94bb-1a154d256795/range?fromDate=2024-03-01&toDate=2024-03-08"
+        f"https://oracle.varsitylive.in/admin/web-analytics/click/{selected_event_name}/3f2973a2-b6f2-4c18-ba1d-4c48346937b6/range?fromDate={fromDate}&toDate={toDate}",
+        f"https://oracle.varsitylive.in/admin/web-analytics/click/{selected_event_name}/f4747acb-e1f7-458a-94bb-1a154d256795/range?fromDate={fromDate}&toDate={toDate}"
     ]
 
-    # Fetch and display data concurrently for the selected event name
+    # Fetch and display data concurrently for the selected event name and date range
     with ThreadPoolExecutor() as executor:
         results = list(executor.map(fetch_clicks, urls))
 
@@ -44,3 +47,4 @@ else:
             st.error(result)
         else:
             st.json(result)  # Use st.json for better formatting of JSON response
+
