@@ -8,7 +8,7 @@ st.title('API Clicks Fetcher')
 
 
 # Authorization token (hardcoded for demonstration; consider securely managing this)
-auth_token = 'Bearer db_secret'  # Ensure to replace <your_token_here> with your actual token
+auth_token = 'Bearer st.secrets["db_secret"]'  # Ensure to replace <your_token_here> with your actual token
 headers = {'Authorization': auth_token}
 
 # Function to fetch clicks data
