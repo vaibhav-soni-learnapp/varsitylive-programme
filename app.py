@@ -36,7 +36,7 @@ else:
     # Dynamic URLs for the APIs based on selected event name and date range
     urls = [
         f"https://oracle.varsitylive.in/admin/web-analytics/click/{selected_event_name}/3f2973a2-b6f2-4c18-ba1d-4c48346937b6/range?fromDate={fromDate}&toDate={toDate}",
-        f"https://oracle.varsitylive.in/admin/web-analytics/click/{selected_event_name}/f4747acb-e1f7-458a-94bb-1a154d256795/range?fromDate={fromDate}&toDate={toDate}"
+       # f"https://oracle.varsitylive.in/admin/web-analytics/click/{selected_event_name}/f4747acb-e1f7-458a-94bb-1a154d256795/range?fromDate={fromDate}&toDate={toDate}"
     ]
 
     # Fetch and display data concurrently for the selected event name and date range
